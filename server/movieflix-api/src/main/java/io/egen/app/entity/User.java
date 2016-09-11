@@ -36,24 +36,6 @@ public class User {
 		id= UUID.randomUUID().toString();
 	}
 	
-	/*@OneToMany
-	private List<Rating> ratings; 
-	@OneToMany
-	private List<Comment> comments; 
-	
-	public List<Rating> getRatings() {
-		return ratings;
-	}
-	public void setRatings(List<Rating> ratings) {
-		this.ratings = ratings;
-	}
-	public List<Comment> getComments() {
-		return comments;
-	}
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}*/
-	
 	public String getId() {
 		return id;
 	}
