@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Edit the Movies</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link href="css/navbar-fixed-top.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container nav-container">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed"
+                        data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                        aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span> <span
+                        class="icon-bar"></span> <span class="icon-bar"></span> <span
+                        class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">MovieFlix</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+
+                    <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                            data-toggle="dropdown" role="button" aria-haspopup="true"
+                                            aria-expanded="false">Browse <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="searchpage.html">Top Rated Movies</a></li>
+                            <li><a href="searchpage.html">Top rated Tv Shows</a></li>
+                            <li><a href="newmovie.html">Add New Movie</a></li>
+                            <li><a href="list_edit_movies.html">Edit/Delete Movie</a></li>
+                            <li role="separator" class="divider"></li>
+                        </ul></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html">Log out</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+</div>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <label for="comment">Comments:</label>
+
+            <table class="table">
+                <tr>
+                    <th>Movie</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                <tr>
+
+                    <td>Sully</td>
+
+                    <td><p data-placement="top" data-toggle="tooltip"
+                           title="Edit">
+                        <button class="btn btn-primary btn-xs" data-title="Edit"
+                                data-toggle="modal" data-target="#edit">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </p></td>
+                    <td><p data-placement="top" data-toggle="tooltip"
+                           title="Delete">
+                        <button class="btn btn-danger btn-xs" data-title="Delete"
+                                data-toggle="modal" data-target="#delete">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </p></td>
+
+                </tr>
+                <tr>
+
+                    <td>X-men Apolocalypse</td>
+                    <td><p data-placement="top" data-toggle="tooltip"
+                           title="Edit">
+                        <button class="btn btn-primary btn-xs" data-title="Edit"
+                                data-toggle="modal" data-target="#edit">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </p></td>
+                    <td><p data-placement="top" data-toggle="tooltip"
+                           title="Delete">
+                        <button class="btn btn-danger btn-xs" data-title="Delete"
+                                data-toggle="modal" data-target="#delete">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </p></td>
+
+                </tr>
+                <tr>
+                    <td>Games of thronee</td>
+                    <td><p data-placement="top" data-toggle="tooltip"
+                           title="Edit">
+                        <button class="btn btn-primary btn-xs" data-title="Edit"
+                                data-toggle="modal" data-target="#edit">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </p></td>
+                    <td><p data-placement="top" data-toggle="tooltip"
+                           title="Delete">
+                        <button class="btn btn-danger btn-xs" data-title="Delete"
+                                data-toggle="modal" data-target="#delete">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </p></td>
+
+                </tr>
+                <tr>
+                    <td>Narcos</td>
+                    <td><p data-placement="top" data-toggle="tooltip"
+                           title="Edit">
+                        <button class="btn btn-primary btn-xs" data-title="Edit"
+                                data-toggle="modal" data-target="#edit">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </p></td>
+                    <td><p data-placement="top" data-toggle="tooltip"
+                           title="Delete">
+                        <button class="btn btn-danger btn-xs" data-title="Delete"
+                                data-toggle="modal" data-target="#delete">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </p></td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="searchpage.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</body>
+</html>
