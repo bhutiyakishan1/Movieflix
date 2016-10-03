@@ -1,0 +1,52 @@
+<div>
+    <div class="loginBoxSignup">
+        <form name="signupForm" ng-submit="signupForm.$setPristine();signupVm.createUser()" novalidate>
+            <div>
+                <h4 id="h4login">Account Access</h4>
+            </div>
+            <div>
+                <input name="firstName" id="firstName"  ng-model="signupVm.newUser.firstName" class="form-control form-control-login"  type="text" placeholder="FirstName" required/>
+                <div ng-messages="signupForm.firstName.$error" ng-if="signupForm.firstName.$dirty">
+                    <p ng-message="required" class="error">First Name is required</p>
+                </div>
+            </div>
+
+            <div>
+                <input  class="form-control form-control-login"  ng-model="signupVm.newUser.lastName"  type="text" placeholder="LastName" />
+            </div>
+            <div>
+                <input name="email" class="form-control form-control-login" ng-model="signupVm.newUser.email" type="email" placeholder="Email" required/>
+                <div  ng-messages="signupForm.email.$error" ng-if="signupForm.email.$dirty">
+                    <p ng-message="required" class="error">Email is required</p>
+                    <p ng-message="email" class="error">Email  is invalid</p>
+                </div>
+            </div>
+            <div>
+                <input name="password" class="form-control form-control-login"  ng-model="signupVm.newUser.password"  type="password" placeholder="Password"  required minlength="4"/>
+                <div ng-messages="signupForm.password.$error" ng-if="signupForm.password.$dirty">
+                    <p  ng-message="required" class="error">Password is required</p>
+                    <p ng-message="minlength" class="error">Password has to be atleast 4 characters</p>
+
+                </div>
+            </div>
+
+
+           <div align="center">
+                <input name="passwordConfirm"  id="passwordConfirm" class="form control form-control-login" ng-model="signupVm.newUser.passwordConfirm" type="password" placeholder="Confirm Password"  required
+                       compare-to="signupVm.newUser.password"/>
+                <div ng-messages="signupForm.passwordConfirm.$error">
+                    <p ng-message="compareTo" class="error">Must match the previous entry</p>
+
+
+                </div>
+            </div>
+
+
+            <div align="center">
+                <button ng-disabled="signupForm.$invalid" type="submit" class="btn btn-primary form-control form-control-login">
+                    Register
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

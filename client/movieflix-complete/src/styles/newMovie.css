@@ -1,0 +1,23 @@
+
+.form-ctrl{
+    margin: 3% auto auto auto;
+    border:2px solid cornflowerblue;
+    width:50%;
+    height:35px;
+    border-radius: 7px;
+    font-size: large;
+}
+.newMovieBox{
+    background-color: black;
+    color: lightgray;
+    width:800px;
+    height:1250px;
+    margin: 1% auto auto auto;
+    opacity: 0.8;
+
+}
+
+#space{
+    visibility: hidden;
+    height: 20px;
+}

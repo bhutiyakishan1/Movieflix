@@ -1,0 +1,96 @@
+<div class="container">
+    <div class="header">
+        <ul class="nav nav-pills pull-right brown">
+            <li class="navElements active" role="presentation"><a class="navElements" href="">Home</a></li>
+            <li  ng-show="movieListVm.role == 'Admin'" class="navElements" role="presentation"><a class="navElements" href="#/add-movie">Create Movie</a></li>
+            <li class="navElements" role="presentation" class="dropdown" uib-dropdown>
+                <a class="dropdown-toggle navElements" uib-dropdown-toggle href="#" role="button" >
+                    My Profile<span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu filter" uib-dropdown-menu>
+                    <li><a ng-href="#/update-user/{{movieListVm.userId}}">Update profile</a></li>
+                    <li><a ng-click="movieListVm.logout()">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="dropdown filterHeader" uib-dropdown>
+                <button class="btn btn-primary dropdown-toggle filter" uib-dropdown-toggle type="button" id="dropdownMenu1" aria-haspopup="true" aria-expanded="true">
+                    Browse
+                    <span class="caret"></span>
+                </button>
+                <ul class="uib-dropdown-menu filter" aria-labelledby="dropdownMenu1">
+                    <li ng-click="movieListVm.getTitlesByType('movie')"><a class="filterList" href="">Movies</a></li>
+                    <li ng-click="movieListVm.getTitlesByType('series')"><a class="filterList" href="">TV Series</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="filterHeader">
+                <input class="form-control txtsearch filter" placeholder="Search by title, genre or year" ng-model="movieListVm.searchText" type="text" />
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="dropdown filterHeader" uib-dropdown>
+                <button class="btn btn-primary dropdown-toggle filter" uib-dropdown-toggle type="button">
+                    Sort By
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu filter" uib-dropdown-menu>
+                    <li ng-click="movieListVm.sorter.sortBy='imdbRatings';movieListVm.sorter.sortOrder=!movieListVm.sorter.sortOrder"><a href="">IMDB Ratings</a></li>
+                    <li ng-click="movieListVm.sorter.sortBy='year';movieListVm.sorter.sortOrder=!movieListVm.sorter.sortOrder"><a href="">Year</a></li>
+                    <li ng-click="movieListVm.sorter.sortBy='imdbVotes';movieListVm.sorter.sortOrder=!movieListVm.sorter.sortOrder"><a href="">IMDB Votes</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row" >
+        <div class="col-sm-3" ng-repeat="movie in movieListVm.titles | filter:movieListVm.searchText | orderBy:movieListVm.sorter.sortBy:movieListVm.sorter.sortOrder">
+            <div class="customDiv style_prevu_kit">
+                <div>
+                    <a class="navElements" href="#/movies/movieDetails/{{movie.movieId}}"> <img class="posterMovie" ng-src="{{movie.poster}}"></a> 
+                </div>
+                <label>{{movie.title}}</label>
+                <p><a href="#" class="btn btn-primary" role="button">Watch Now</a> <a href="#/movies/movieDetails/{{movie.movieId}}" class="btn btn-primary" role="button">View Details</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="footer">
+        <nav aria-label="Page navigation">
+            <ul  class="pagination pagination-lg">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
