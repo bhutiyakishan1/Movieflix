@@ -1,23 +1,21 @@
 package io.egen.app.repository;
 
 import java.util.List;
-import java.util.Map;
 
 import io.egen.app.entity.Movie;
 
 public interface MovieRepository {
 
 	public List<Movie> findAll();
-
-	public Movie findById(String id);
-
-	public List<Movie> findByArguments(Map<String, String> params);
-	
-	public Movie create(Movie emp);
-
-	public Movie update(Movie emp);
-
-	public void delete(Movie emp);
-
-	public Movie findByTitle(String title);
+	public Movie update(String movieId, Movie mv);
+	public void delete(Movie mv);
+	public Movie  create(Movie mv);
+	public Movie findByImdb(String imdbID);
+	public Movie findone(String movieId);
+	public List<Movie> topRated(String type);
+	public List<Movie> sortByImdbRatings();
+	public List<Movie> sortByImdbVotes();
+	public List<Movie> sortByYear();
+	public Movie updateAvgRating(String movieId,Movie movie);
+	public List<Movie> freeTextSearch(String freeText);
 }

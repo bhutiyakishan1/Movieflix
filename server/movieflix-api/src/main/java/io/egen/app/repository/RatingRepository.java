@@ -1,22 +1,13 @@
 package io.egen.app.repository;
 
-
 import java.util.List;
-import java.util.Map;
 
+import io.egen.app.entity.Movie;
 import io.egen.app.entity.Rating;
 
 public interface RatingRepository {
+	Rating createRating(Rating rating);
+	List<Rating> getComments(Movie movie);
+	double updateAvgRating(Rating rating);
 
-	public double findByArguments(Map<String, String> params);
-
-	public Rating findById(String id);
-
-	public List<Rating> findByUserIdMovieId(String userId, String movieId);
-	
-	public Rating create(Rating emp);
-
-	public Rating update(Rating emp);
-
-	public void delete(Rating emp);
 }

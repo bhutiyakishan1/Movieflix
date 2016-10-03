@@ -2,9 +2,7 @@ package io.egen.app.entity;
 
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -15,34 +13,25 @@ import javax.persistence.Table;
 @Entity
 @Table
 @NamedQueries({ 
-	@NamedQuery(name = "Rating.findByUserIdMovieId", query = "select r from Rating r where r.user.id = :pUserId and r.movie.id = :pMovieId"),
-	@NamedQuery(name = "Rating.findAvgByMovieId", query = "select avg(r.value) from Rating r where r.movie.id = :pMovieId"),
-	@NamedQuery(name = "Rating.findAll", query = "select r from Rating r where r.user.id = :pUserId" )
-})	
+	@NamedQuery(name = "Rating.getComments", query = "SELECT e FROM Rating e where e.movie =:movie")
+})
 public class Rating {
 	@Id
-	private String id;
+	private String ratingId;
+	private String comment;
+	private int rating;
 	
-	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@ManyToOne
 	private User user;
 	
-	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@ManyToOne
 	private Movie movie;
 	
-	private int value;
-	
 	public Rating(){
-		id= UUID.randomUUID().toString();
+		ratingId= UUID.randomUUID().toString();
 	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
+	
+	
 	public User getUser() {
 		return user;
 	}
@@ -59,13 +48,28 @@ public class Rating {
 		this.movie = movie;
 	}
 
-	public int getValue() {
-		return value;
+		public String getRatingId() {
+		return ratingId;
 	}
-
-	public void setValue(int value) {
-		this.value = value;
+	public void setRatingId(String ratingId) {
+		this.ratingId = ratingId;
 	}
 	
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+	@Override
+	public String toString() {
+		return "Rating [ratingId=" + ratingId + ", comment=" + comment + ", rating=" + rating + ", user=" + user + ", movie=" + movie + "]";
+	}
 	
 }

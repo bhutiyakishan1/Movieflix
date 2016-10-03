@@ -1,77 +1,47 @@
 package io.egen.app.repository;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-
-
-
-
-//import org.eclipse.persistence.internal.jpa.rs.metadata.model.Query;
 import org.springframework.stereotype.Repository;
 
+import io.egen.app.entity.Movie;
 import io.egen.app.entity.Rating;
 
 @Repository
-public class RatingRepositoryImp implements RatingRepository {
-
+public class RatingRepositoryImp implements RatingRepository{
 	@PersistenceContext
 	private EntityManager em;
 
 	@Override
-	public double findByArguments(Map<String, String> params) {
-		TypedQuery<Double> query;
-		if(params.get("movieId")!=null)
-		{
-			query = em.createNamedQuery("Rating.findAvgByMovieId", Double.class);
-			query.setParameter("pMovieId", params.get("movieId"));
-		}	
-		else	
-			query = em.createNamedQuery("Rating.findAll", Double.class);
-			query.setParameter("pUserId",params.get("userId"));
+	public Rating createRating(Rating rating) {
+		em.persist(rating);
+		updateAvgRating(rating);
+		return rating;
+	}
+
+	@Override
+	public List<Rating> getComments(Movie movie) {
+		TypedQuery<Rating> query = em.createNamedQuery("Rating.getComments", Rating.class);
+		query.setParameter("movie", movie);
+		List<Rating> comments = query.getResultList();
+		if(comments!=null)
+			return comments;
+		else
+			return null;
+	}
+
+	@Override
+	public double updateAvgRating(Rating rating) {
+		Movie  movie =  rating.getMovie();
+		TypedQuery<Double> query= em.createQuery("SELECT AVG(u.rating) FROM Rating u where u.movie=:movie",Double.class);
+		query.setParameter("movie", movie);
 		
-			List<Double> avg = query.getResultList();
-			if (avg.size() == 1) {
-				return avg.get(0);
-			} else {
-				return 0;
-			}
-		}
-			
-			//double avg = query.getSingleResult();
-		   //return avg;
-	
-
-	@Override
-	public List<Rating> findByUserIdMovieId(String userId, String movieId) {
-		TypedQuery<Rating> query = em.createNamedQuery("Rating.findByUserIdMovieId", Rating.class);
-		query.setParameter("pUserId", userId); 
-		query.setParameter("pMovieId", movieId);
-		return query.getResultList();
+		return  query.getSingleResult();
 	}
 	
-	@Override
-	public Rating findById(String id) {
-		return em.find(Rating.class, id);
-	}
-	
-	@Override
-	public Rating create(Rating emp) {
-		em.persist(emp);
-		return emp;
-	}
 
-	@Override
-	public Rating update(Rating emp) {
-		return em.merge(emp);
-	}
-
-	@Override
-	public void delete(Rating emp) {
-		em.remove(emp);
-	}
 }

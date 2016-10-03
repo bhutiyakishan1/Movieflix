@@ -1,5 +1,6 @@
 package io.egen.app.entity;
 
+
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -13,34 +14,47 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-
-@NamedQueries({
-		@NamedQuery(name="User.findAll" , query="Select e from User e ORDER BY e.email"),
-			  @NamedQuery(name="User.findByEmail" , query ="Select e from User e where e.email = :pEmail")
-			  })
-
+@NamedQueries({ 
+		@NamedQuery(name = "User.findAll", query = "SELECT e FROM User e"),
+		@NamedQuery(name = "User.findByEmail", query = "SELECT e FROM User e where e.email like :email"),
+		@NamedQuery(name = "User.findByUserId", query = "SELECT e FROM User e where e.userId like :userId"),
+		@NamedQuery(name = "User.findByEmailAndPassword", query = "SELECT e FROM User e where e.email like :email and e.password like :password and e.role ='User'"),
+		@NamedQuery(name = "User.findAdminByEmailAndPassword", query = "SELECT e FROM User e where e.email like :email and e.password like :password and e.role ='Admin'")
+})
 public class User {
-	
+
 	@Id
-	private String id;
+	private String userId;
+	private String username;
 	private String firstName;
 	private String lastName;
-	
-	@Column(unique=true)
+	private String password;
+	@Column(unique = true)
 	private String email;
-	
 	private String role;
 	
 	
 	public User(){
-		id= UUID.randomUUID().toString();
+		userId= UUID.randomUUID().toString();
+	}
+	public String getRole() {
+		return role;
 	}
 	
-	public String getId() {
-		return id;
+	public void setRole(String role) {
+		this.role = role;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -54,24 +68,21 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
-
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", email=" + email + ", role=" + role + "]";
+		return "User [userId=" + userId + ", username=" + username + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", password=" + password + ", email=" + email + "]";
 	}
-	
-	
 }

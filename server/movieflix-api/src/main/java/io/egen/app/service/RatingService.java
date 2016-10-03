@@ -1,18 +1,12 @@
 package io.egen.app.service;
 
-import java.util.Map;
+import java.util.List;
 
+import io.egen.app.entity.Movie;
 import io.egen.app.entity.Rating;
 
 public interface RatingService {
-
-	public double findByArguments(Map<String, String> params) ;
-
-	public Rating findById(String id);
-	
-	public Rating create(Map<String, String> params,Rating rating);
-
-	public Rating update(String id, Rating emp);
-
-	public void delete(String id);
+	Rating createRating(Rating rating);
+	List<Rating> getComments(Movie movie);
+	void updateAvgRating(Rating rating);
 }

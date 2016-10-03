@@ -2,7 +2,6 @@ package io.egen.app.entity;
 
 import java.util.UUID;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,235 +10,183 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 
+
 @Entity
 @Table
 @NamedQueries({ 
-	@NamedQuery(name = "Movie.findByTitle", query = "SELECT m FROM Movie m WHERE m.title=:pTitle ORDER BY m.year DESC") ,
-	@NamedQuery(name = "Movie.findAll", query = "SELECT m FROM Movie m ORDER BY m.title ASC"),
-	@NamedQuery(name = "Movie.findByType", query = "SELECT m FROM Movie m WHERE m.type=:pType ORDER BY m.title ASC"),
-	@NamedQuery(name = "Movie.findByYear", query = "SELECT m FROM Movie m WHERE m.year=:pYear ORDER BY m.title ASC"),
-	@NamedQuery(name = "Movie.findByGenre", query = "SELECT m from Movie m WHERE m.genre = :pGenre ORDER BY m.title ASC"),
-	@NamedQuery(name = "Movie.findAllSortByYear", query = "SELECT m FROM Movie m ORDER BY m.year DESC"),
-	@NamedQuery(name = "Movie.findByTypeSortByYear", query = "SELECT m FROM Movie m WHERE m.type=:pType ORDER BY m.year DESC"),
-	@NamedQuery(name = "Movie.findByYearSortByYear", query = "SELECT m FROM Movie m WHERE m.year=:pYear ORDER BY m.year DESC"),
-	@NamedQuery(name = "Movie.findAllSortByRating", query = "SELECT m FROM Movie m ORDER BY m.imdbRating DESC"),
-	@NamedQuery(name = "Movie.findByTypeSortByRating", query = "SELECT m FROM Movie m WHERE m.type=:pType ORDER BY m.imdbRating DESC"),
-	@NamedQuery(name = "Movie.findByYearSortByRating", query = "SELECT m FROM Movie m WHERE m.year=:pYear ORDER BY m.imdbRating DESC"),
-	@NamedQuery(name = "Movie.findAllSortByVotes", query = "SELECT m FROM Movie m ORDER BY m.imdbVotes DESC"),
-	@NamedQuery(name = "Movie.findByTypeSortByVotes", query = "SELECT m FROM Movie m WHERE m.type=:pType ORDER BY m.imdbVotes DESC"),
-	@NamedQuery(name = "Movie.findByYearSortByVotes", query = "SELECT m FROM Movie m WHERE m.year=:pYear ORDER BY m.imdbVotes DESC"),
-	
-})	
-
+		@NamedQuery(name = "Movie.findAll", query = "SELECT e FROM Movie e"),
+		@NamedQuery(name = "Movie.topRated", query = "SELECT e FROM Movie e where e.type=:type ORDER BY e.imdbRating ASC"),
+		@NamedQuery(name = "Movie.sortByImdbRatings", query = "SELECT e FROM Movie e ORDER BY e.imdbRating ASC"),
+		@NamedQuery(name = "Movie.sortByImdbVotes", query = "SELECT e FROM Movie e ORDER BY e.imdbVotes ASC"),
+		@NamedQuery(name = "Movie.sortByYear", query = "SELECT e FROM Movie e ORDER BY e.year ASC"),
+		@NamedQuery(name = "Movie.findByImdb", query = "SELECT e FROM Movie e WHERE e.imdbID=:pImdbId"),
+		//@NamedQuery(name = "Movie.freeTextSearch", query = "SELECT e FROM Movie e where concat(Genre,Type,Title) like :freeText")
+})
 public class Movie {
-
 	@Id
-	private String id;
-	
-	@Column(unique= true)
+	private String movieId;
 	private String title;
 	private String year;
 	private String rated;
 	private String released;
 	private String runtime;
 	private String genre;
-	private String Director;
-	private String Writer;
-	private String Actors;
-	private String Plot;
-	private String Language;
-	private String Country;
-	private String Awards;
-	private String Poster;
-	private String Metascore;
+	private String director;
+	private String writer;
+	private String actors;
+	private String plot;
+	private String language;
+	private String country;
+	private String awards;
+	private String poster;
+	private String metascore;
 	private String imdbRating;
-	private String imdbVotes;
+	private String imdbVotes; 
+	@Column(unique = true)
 	private String imdbID;
 	private String type;
-	private String comments;
-	private String ratings;
+	private double avgRating;
 	
 	public Movie(){
-		id= UUID.randomUUID().toString();
+		movieId= UUID.randomUUID().toString();
 	}
-
-	public String getId() {
-		return id;
+	
+	
+	public double getAvgRating() {
+		return avgRating;
 	}
-
-	public void setId(String id) {
-		this.id = id;
+	public void setAvgRating(double avgRating) {
+		this.avgRating = avgRating;
 	}
-
+	public String getMovieId() {
+		return movieId;
+	}
+	public void setMovieId(String movieId) {
+		this.movieId = movieId;
+	}
 	public String getTitle() {
 		return title;
 	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 	public String getYear() {
 		return year;
 	}
-
 	public void setYear(String year) {
 		this.year = year;
 	}
-
 	public String getRated() {
 		return rated;
 	}
-
 	public void setRated(String rated) {
 		this.rated = rated;
 	}
-
 	public String getReleased() {
 		return released;
 	}
-
 	public void setReleased(String released) {
 		this.released = released;
 	}
-
 	public String getRuntime() {
 		return runtime;
 	}
-
 	public void setRuntime(String runtime) {
 		this.runtime = runtime;
 	}
-
 	public String getGenre() {
 		return genre;
 	}
-
 	public void setGenre(String genre) {
 		this.genre = genre;
 	}
-
 	public String getDirector() {
-		return Director;
+		return director;
 	}
-
 	public void setDirector(String director) {
-		Director = director;
+		this.director = director;
 	}
-
 	public String getWriter() {
-		return Writer;
+		return writer;
 	}
-
 	public void setWriter(String writer) {
-		Writer = writer;
+		this.writer = writer;
 	}
-
 	public String getActors() {
-		return Actors;
+		return actors;
 	}
-
 	public void setActors(String actors) {
-		Actors = actors;
+		this.actors = actors;
 	}
-
 	public String getPlot() {
-		return Plot;
+		return plot;
 	}
-
 	public void setPlot(String plot) {
-		Plot = plot;
+		this.plot = plot;
 	}
-
 	public String getLanguage() {
-		return Language;
+		return language;
 	}
-
 	public void setLanguage(String language) {
-		Language = language;
+		this.language = language;
 	}
-
 	public String getCountry() {
-		return Country;
+		return country;
 	}
-
 	public void setCountry(String country) {
-		Country = country;
+		this.country = country;
 	}
-
 	public String getAwards() {
-		return Awards;
+		return awards;
 	}
-
 	public void setAwards(String awards) {
-		Awards = awards;
+		this.awards = awards;
 	}
-
 	public String getPoster() {
-		return Poster;
+		return poster;
 	}
-
 	public void setPoster(String poster) {
-		Poster = poster;
+		this.poster = poster;
 	}
-
 	public String getMetascore() {
-		return Metascore;
+		return metascore;
 	}
-
 	public void setMetascore(String metascore) {
-		Metascore = metascore;
+		this.metascore = metascore;
 	}
-
 	public String getImdbRating() {
 		return imdbRating;
 	}
-
 	public void setImdbRating(String imdbRating) {
 		this.imdbRating = imdbRating;
 	}
-
 	public String getImdbVotes() {
 		return imdbVotes;
 	}
-
 	public void setImdbVotes(String imdbVotes) {
 		this.imdbVotes = imdbVotes;
 	}
-
 	public String getImdbID() {
 		return imdbID;
 	}
-
 	public void setImdbID(String imdbID) {
 		this.imdbID = imdbID;
 	}
-
 	public String getType() {
 		return type;
 	}
-
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	public String getComments() {
-		return comments;
+	@Override
+	public String toString() {
+		return "Movie [movieId=" + movieId + ", title=" + title + ", year=" + year + ", rated=" + rated + ", released="
+				+ released + ", runtime=" + runtime + ", genre=" + genre + ", director=" + director + ", writer="
+				+ writer + ", actors=" + actors + ", plot=" + plot + ", language=" + language + ", country=" + country
+				+ ", awards=" + awards + ", poster=" + poster + ", metascore=" + metascore + ", imdbRating="
+				+ imdbRating + ", imdbVotes=" + imdbVotes + ", imdbID=" + imdbID + ", type=" + type + "]";
 	}
-
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
-
-	public String getRatings() {
-		return ratings;
-	}
-
-	public void setRatings(String ratings) {
-		this.ratings = ratings;
-	}
-
+	
+	
 	
 }
-	
-	

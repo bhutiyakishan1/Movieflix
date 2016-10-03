@@ -7,59 +7,86 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.egen.app.entity.User;
-import io.egen.app.exception.EntityAlreadyExistException;
-import io.egen.app.exception.EntityNotFoundException;
+import io.egen.app.exception.*;
 import io.egen.app.repository.UserRepository;
 
 @Service
-public class UserServiceImp implements UserService {
-
+public class UserServiceImp implements UserService{
 	@Autowired
-	private UserRepository repository;
+	UserRepository userrepository;
+	
+	@Override
+	@Transactional
+	public User createUser(User user) throws UserAlreadyExistsException{
+		User existing = userrepository.findByEmail(user.getEmail());
+		if (existing != null) {
+			throw new UserAlreadyExistsException("User already exists: " + user.getEmail());
+		}
+		return userrepository.createUser(user);
+	}
+
+	@Override
+	@Transactional
+	public User updateUser(String userId, User user) throws UserNotFoundException{
+		User existing = userrepository.findById(userId);
+		if (existing == null) {
+			throw new UserNotFoundException("User with id:" + userId + " not found");
+		}
+		return userrepository.updateUser(userId, user);
+	}
+
+	@Override
+	@Transactional
+	public void deleteUser(String userId) throws UserNotFoundException{
+		User existing = userrepository.findById(userId);
+		if (existing == null) {
+			throw new UserNotFoundException("User with id:" + userId + " not found");
+		}
+		userrepository.deleteUser(existing);
+	}
+
+	@Override
+	public User findByEmail(String email) throws UserNotFoundException{
+		User existing  = userrepository.findByEmail(email);
+		if(existing!=null)
+			return existing;
+		else
+			throw new UserNotFoundException("User with email:" + email+ " not found");
+	}
+
+	@Override
+	public User findById(String userId) throws UserNotFoundException{
+		User existing  = userrepository.findById(userId);
+		if(existing!=null)
+			return existing;
+		else
+			throw new UserNotFoundException("User with userId:" + userId+ " not found");
+		
+	}
+
+	@Override
+	public User findByEmailAndPassword(String email, String password) throws UserNotFoundException{
+		User existing  =  userrepository.findByEmailAndPassword(email, password);
+		if(existing!=null)
+			return existing;
+		else
+			throw new UserNotFoundException("User with emaild and password combination not found: ");	
+	}
 
 	@Override
 	public List<User> findAll() {
-		return repository.findAll();
+		return userrepository.findAll();
 	}
 
 	@Override
-	public User findOne(String empId) {
-		User usr = repository.findOne(empId);
-		if (usr == null) {
-			throw new EntityNotFoundException("User not found");
-		}
-		return usr;
-	}
+	public User findAdminByEmailAndPassword(String email, String password) {
+		// TODO Auto-generated method stub
+		User existing  =  userrepository.findAdminByEmailAndPassword(email, password);
+		if(existing!=null)
+			return existing;
+		else
+			throw new UserNotFoundException("Admin with emaild and password combination not found: ");	
 
-	@Transactional
-	@Override
-	public User create(User usr) {
-		User existing = repository.findByEmail(usr.getEmail());
-		if (existing != null) {
-			throw new EntityAlreadyExistException("User already exists with this email");
-		}
-		return repository.create(usr);
 	}
-
-	@Transactional
-	@Override
-	public User update(String usrId, User usr) {
-		User existing = repository.findOne(usrId);
-		if (existing == null) {
-			throw new EntityNotFoundException("User not found");
-		}
-		return repository.update(usr);
-	}
-
-	@Transactional
-	@Override
-	public void remove(String usrId) {
-		User existing = repository.findOne(usrId);
-		if (existing == null) {
-			throw new EntityNotFoundException("User not found");
-		}
-		repository.delete(existing);
-	}
-
 
 }

@@ -1,69 +1,92 @@
 package io.egen.app.service;
 
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import io.egen.app.exception.MovieAlreadyExistsException;
+import io.egen.app.exception.MovieNotFoundException;
 import io.egen.app.entity.Movie;
-import io.egen.app.exception.EntityAlreadyExistException;
-import io.egen.app.exception.EntityNotFoundException;
 import io.egen.app.repository.MovieRepository;
 
 @Service
-public class MovieServiceImp implements MovieService {
-
+public class MovieServiceImp implements MovieService{
 	@Autowired
-	MovieRepository repository;
-
+	MovieRepository movierepository;
+	
 	@Override
 	public List<Movie> findAll() {
-		return repository.findAll();
+		return movierepository.findAll();
 	}
 
 	@Override
-	public Movie findById(String id) {
-		Movie existing = repository.findById(id);
-		if (existing == null) {
-			throw new EntityNotFoundException("Movie with id:" + id + " not found");
+	@Transactional
+	public Movie update(String movieId, Movie mv) throws MovieNotFoundException{
+		Movie existing = movierepository.findone(mv.getMovieId());
+		if(existing==null){
+			throw new MovieNotFoundException("Movie with id:" + movieId + " not found");
 		}
-		return existing;
+		return movierepository.update(movieId, mv);
 	}
-	
-	@Override
-	public List<Movie> findByArguments(Map<String, String> params) {
-	
-		return repository.findByArguments(params);
-	}
-	
+
 	@Override
 	@Transactional
-	public Movie create(Movie movie) {
-		Movie existing = repository.findByTitle(movie.getTitle());
+	public Movie createMovie(Movie mv) throws MovieAlreadyExistsException{
+		Movie existing = movierepository.findByImdb(mv.getImdbID());
 		if (existing != null) {
-			throw new EntityAlreadyExistException("Movie Already exists: " + movie.getTitle());
+			throw new MovieAlreadyExistsException("Movie already exists: " + mv.getImdbID());
 		}
-		return repository.create(movie);
+		return movierepository.create(mv);
+	}
+	
+	@Override
+	@Transactional
+	public void delete(String movieId) throws MovieNotFoundException{
+		Movie existing = movierepository.findone(movieId);
+		if (existing == null) {
+			throw new MovieNotFoundException("Movie with id:" + movieId + " not found");
+		}
+		movierepository.delete(existing);
 	}
 
 	@Override
-	@Transactional
-	public Movie update(String id, Movie emp) {
-		Movie existing = repository.findById(id);
-		if (existing == null) {
-			throw new EntityNotFoundException("Movie with id:" + id + " not found");
-		}
-		return repository.update(emp);
+	public List<Movie> topRated(String type) {
+		return movierepository.topRated(type);
 	}
 
 	@Override
-	@Transactional
-	public void delete(String id) {
-		Movie existing = repository.findById(id);
-		if (existing == null) {
-			throw new EntityNotFoundException("Movie with id:" + id + " not found");
-		}
-		repository.delete(existing);
+	public List<Movie> sortByImdbRatings() {
+		return movierepository.sortByImdbRatings();
+	}
+
+	@Override
+	public List<Movie> sortByImdbVotes() {
+		return movierepository.sortByImdbVotes();
+	}
+
+	@Override
+	public List<Movie> sortByYear() {
+		return movierepository.sortByYear();
+	}
+
+	@Override
+	public Movie findById(String movieId) throws MovieNotFoundException{
+		Movie movie  = movierepository.findone(movieId);
+		if(movie!=null)
+			return movie;
+		else
+			throw new MovieNotFoundException("Movie with id:" + movieId + " not found");
+	}
+
+	@Override
+	public List<Movie> freeTextSearch(String freeText) {
+			return movierepository.freeTextSearch(freeText);
+	}
+	
+	@Override
+	public void updateAvgRating(String movieId, Movie movie) {
+		movierepository.findone(movie.getMovieId());		
+		movierepository.update(movieId, movie);
 	}
 }

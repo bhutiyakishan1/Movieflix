@@ -1,7 +1,6 @@
 package io.egen.app.repository;
 
 import java.util.List;
-import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -9,96 +8,113 @@ import org.springframework.stereotype.Repository;
 import io.egen.app.entity.Movie;
 
 @Repository
-public class MovieRepositoryImp implements MovieRepository {
-
+public class MovieRepositoryImp implements MovieRepository{
+	
 	@PersistenceContext
 	private EntityManager em;
-
+	
 	@Override
 	public List<Movie> findAll() {
 		TypedQuery<Movie> query = em.createNamedQuery("Movie.findAll", Movie.class);
 		return query.getResultList();
+	
 	}
 
 	@Override
-	public Movie findById(String id) {
-		return em.find(Movie.class, id);
+	public Movie update(String movieId, Movie mv) {
+		return em.merge(mv);
 	}
 
 	@Override
-	public List<Movie> findByArguments(Map<String, String> params) {
-		TypedQuery<Movie> query=null;
-		
-		if(params.get("type")!=null)
-		{	
-			if(params.get("sort")=="year")
-				query = em.createNamedQuery("Movie.findByTypeSortByYear", Movie.class);
-			else if(params.get("sort")=="rating") 
-				query = em.createNamedQuery("Movie.findByTypeSortByRating", Movie.class);
-			else if(params.get("sort")=="votes") 
-				query = em.createNamedQuery("Movie.findByTypeSortByVotes", Movie.class);
-			else
-				query = em.createNamedQuery("Movie.findByType", Movie.class);
-			query.setParameter("pType", params.get("type")); 
-		}	
-		else if(params.get("year")!=null)
-		{
-			if(params.get("sort")=="year")
-				query = em.createNamedQuery("Movie.findByYearSortByYear", Movie.class);
-			else if(params.get("sort")=="rating") 
-				query = em.createNamedQuery("Movie.findByYearSortByRating", Movie.class);
-			else if(params.get("sort")=="votes") 
-				query = em.createNamedQuery("Movie.findByYearSortByVotes", Movie.class);
-			else
-				query = em.createNamedQuery("Movie.findByYear", Movie.class);
-			query.setParameter("pYear", Integer.parseInt(params.get("year")));
-		}
-		else if(params.get("genre")!=null)
-		{
-				query = em.createNamedQuery("Movie.findByGenre", Movie.class);
-			query.setParameter("pGenre", params.get("genre"));
-		}
-		else
-		{
-
-			if(params.get("sort")=="year")
-				query = em.createNamedQuery("Movie.findAllSortByYear", Movie.class);
-			else if(params.get("sort")=="rating") 
-				query = em.createNamedQuery("Movie.findAllSortByRating", Movie.class);
-			else if(params.get("sort")=="votes") 
-				query = em.createNamedQuery("Movie.findAllSortByVotes", Movie.class);
-			else
-				query = em.createNamedQuery("Movie.findAll", Movie.class);
-		}
-		
-		List<Movie> movies = query.getResultList();
-		return movies;
+	public void delete(Movie mv) {
+		em.remove(mv);
 	}
 	
 	@Override
-	public Movie findByTitle(String title) {
-		TypedQuery<Movie> query = em.createNamedQuery("Movie.findByTitle", Movie.class);
-		query.setParameter("pTitle", title);
-		List<Movie> Movies = query.getResultList();
-		if (Movies != null && Movies.size() == 1) {
-			return Movies.get(0);
+	public Movie create(Movie mv) {
+		 em.persist(mv);
+		 return mv;
+	}
+
+	@Override
+	public Movie findByImdb(String imdbID) {
+		TypedQuery<Movie> query = em.createNamedQuery("Movie.findByImdb", Movie.class);
+		query.setParameter("pImdbId", imdbID);
+		List<Movie> movies = query.getResultList();
+		if (movies != null && movies.size() == 1) {
+			return movies.get(0);
+		}
+		return null;
+		
+	}
+
+	@Override
+	public List<Movie> topRated(String type) {
+		TypedQuery<Movie> query = em.createNamedQuery("Movie.topRated", Movie.class);
+		query.setParameter("type", type);
+		List<Movie> movies =query.getResultList();
+		if ( movies.size() > 0) {
+			return movies;
+		}
+		return null;
+		 
+	}
+
+	@Override
+	public List<Movie> sortByImdbRatings() {
+		TypedQuery<Movie> query = em.createNamedQuery("Movie.sortByImdbRatings", Movie.class);
+		List<Movie> movies =query.getResultList();
+		if ( movies.size() > 0) {
+			return movies;
+		}
+		return null;
+
+	}
+
+	@Override
+	public List<Movie> sortByImdbVotes() {
+		TypedQuery<Movie> query = em.createNamedQuery("Movie.sortByImdbVotes", Movie.class);
+		List<Movie> movies =query.getResultList();
+		if ( movies.size() > 0) {
+			return movies;
+		}
+		return null;
+
+	}
+
+	@Override
+	public List<Movie> sortByYear() {
+		TypedQuery<Movie> query = em.createNamedQuery("Movie.sortByYear", Movie.class);
+		List<Movie> movies =query.getResultList();
+		if ( movies.size() > 0) {
+			return movies;
+		}
+		return null;
+
+	}
+
+	@Override
+	public Movie findone(String movieId) {
+		Movie movie  = em.find(Movie.class, movieId);
+		if(movie!=null)
+			return movie;
+		else return null;
+	}
+
+	@Override
+	public List<Movie> freeTextSearch(String freeText) {
+		TypedQuery<Movie> query = em.createNamedQuery("Movie.freeTextSearch", Movie.class);
+		query.setParameter("freeText", "%"+ freeText + "%");
+		List<Movie> movies =query.getResultList();
+		if ( movies.size() > 0) {
+			return movies;
 		}
 		return null;
 	}
 
 	@Override
-	public Movie create(Movie movie) {
-		em.persist(movie);
-		return movie;
-	}
+	public Movie updateAvgRating(String movieId, Movie movie) {
+		return em.merge(movie);
 
-	@Override
-	public Movie update(Movie emp) {
-		return em.merge(emp);
-	}
-
-	@Override
-	public void delete(Movie emp) {
-		em.remove(emp);
 	}
 }

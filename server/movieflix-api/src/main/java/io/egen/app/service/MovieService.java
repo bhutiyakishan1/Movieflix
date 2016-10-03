@@ -1,21 +1,21 @@
 package io.egen.app.service;
 
 import java.util.List;
-import java.util.Map;
+
 
 import io.egen.app.entity.Movie;
 
 public interface MovieService {
 
-	public List<Movie> findAll();
-
-	public Movie findById(String id);
-	
-	public List<Movie> findByArguments(Map<String, String> params);
-
-	public Movie create(Movie emp);
-
-	public Movie update(String id, Movie emp);
-
-	public void delete(String id);
+	List<Movie> findAll();
+	Movie update(String movieId, Movie mv);
+	void delete(String movieId);
+	Movie  createMovie(Movie mv);
+	List<Movie> topRated(String type);
+	List<Movie> sortByImdbRatings();
+	List<Movie> sortByImdbVotes();
+	List<Movie> sortByYear();
+	Movie findById(String movieId);
+	List<Movie> freeTextSearch(String freeText);
+	void updateAvgRating(String movieId,Movie movie);
 }

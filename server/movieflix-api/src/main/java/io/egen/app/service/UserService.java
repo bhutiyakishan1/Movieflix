@@ -1,19 +1,17 @@
 package io.egen.app.service;
 
-import io.egen.app.entity.User;
-
 import java.util.List;
 
+import io.egen.app.entity.User;
+
 public interface UserService {
-
-	public List<User> findAll();
-
-	public User findOne(String usrId);
-
-	public User create(User usr);
-
-	public User update(String empid, User emp);
-
-	public void remove(String usrId);
-
+	User createUser(User user);
+	User updateUser(String userId,User user);
+	void  deleteUser(String userId);
+	User findByEmail(String userId);
+	User findById(String userId);
+	User findByEmailAndPassword(String email, String password);
+	User findAdminByEmailAndPassword(String email, String password);
+	List<User> findAll();
+		
 }

@@ -1,26 +1,17 @@
 package io.egen.app.repository;
 
-import io.egen.app.entity.User;
-
 import java.util.List;
 
-public interface UserRepository {
+import io.egen.app.entity.User;
 
-
-	public List<User> findAll();
-
-	public User findOne(String usrId);
-
-	public User findByEmail(String email);
-
-	public User create(User usr);
-
-	public User update(User usr);
-
-	public void delete(User existing);
-
-
-	
-	
-
+public interface  UserRepository {
+	User createUser(User user);
+	User updateUser(String userId,User user);
+	void  deleteUser(User user);
+	User findByEmail(String userId);
+	User findById(String userId);
+	User findByEmailAndPassword(String email, String password);
+	User findAdminByEmailAndPassword(String email, String password);
+	List<User> findAll();
+	User getUser(String email, String password);		
 }

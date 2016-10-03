@@ -11,37 +11,56 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.egen.app.entity.User;
+import io.egen.app.exception.UserAlreadyExistsException;
+import io.egen.app.exception.UserNotFoundException;
 import io.egen.app.service.UserService;
 
 @RestController
-@RequestMapping(value = "users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path = "users")
 public class UserController {
 
 	@Autowired
-	private UserService service;
-
-	@RequestMapping(method = RequestMethod.GET)
-	public List<User> findAll() {
-		return service.findAll();
+	private UserService userservice;
+	
+	
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public List<User> findAll(){
+		return userservice.findAll();
 	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "{id}")
-	public User findOne(@PathVariable("id") String usrId) {
-		return service.findOne(usrId);
+	
+	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public User createUser(@RequestBody User user) throws UserAlreadyExistsException{
+		return userservice.createUser(user);
 	}
-
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public User create(@RequestBody User usr) {
-		return service.create(usr);
+	
+	@RequestMapping(method = RequestMethod.PUT, path = "{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public User updateUser(@PathVariable("userId") String userId, @RequestBody User user) throws UserNotFoundException{
+		return userservice.updateUser(userId, user);
 	}
-
-	@RequestMapping(method = RequestMethod.PUT, value = "{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public User update(@PathVariable("id") String usrId, @RequestBody User usr) {
-		return service.update(usrId, usr);
+	
+	@RequestMapping(method = RequestMethod.DELETE, path = "{userId}")
+	public void  deleteUser(@PathVariable("userId") String userId){
+		userservice.deleteUser(userId);
 	}
-
-	@RequestMapping(method = RequestMethod.DELETE, value = "{id}")
-	public void delete(@PathVariable("id") String usrId) {
-		service.remove(usrId);
+	
+	
+	@RequestMapping(method = RequestMethod.GET,path = "email/{email}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public User findByEmail(@PathVariable("email") String email) throws UserNotFoundException{
+		return userservice.findByEmail(email);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, path = "userId/{userId}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public User findById(@PathVariable("userId")  String userId) throws UserNotFoundException{
+		return userservice.findById(userId);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, path = "login/user",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public User checkUser(@RequestBody User user){
+		return userservice.findByEmailAndPassword(user.getEmail(),user.getPassword());	
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, path = "login/admin",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public User checkAdmin(@RequestBody User admin){
+		return userservice.findAdminByEmailAndPassword(admin.getEmail(),admin.getPassword());	
 	}
 }
