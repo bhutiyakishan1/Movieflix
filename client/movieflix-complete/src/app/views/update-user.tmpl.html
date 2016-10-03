@@ -1,0 +1,45 @@
+div>
+<div class="loginBoxSignup">
+    <form name="updateUserVm.updateForm" ng-submit="updateForm.$setPristine();updateUserVm.updateUser(updateUserVm.updateForm)" novalidate>
+        <div>
+            <h4 id="h4login">Update Account</h4>
+        </div>
+        <div>
+            <input name="firstName" id="firstName"  ng-model="updateUserVm.user.firstName" class="form-control form-control-login"  type="text" placeholder="FirstName" required/>
+            <div ng-messages="updateForm.firstName.$error" ng-if="updateForm.firstName.$dirty">
+                <p ng-message="required" class="error">First Name is required</p>
+            </div>
+        </div>
+
+        <div>
+            <input  class="form-control form-control-login"  ng-model="updateUserVm.user.lastName"  type="text" placeholder="LastName" />
+        </div>
+        <div>
+            <input name="email" class="form-control form-control-login" ng-model="updateUserVm.user.email" type="email" placeholder="Email" required/>
+            <div  ng-messages="updateForm.email.$error" ng-if="updateForm.email.$dirty">
+                <p ng-message="required" class="error">Email is required</p>
+                <p ng-message="email" class="error">Email  is invalid</p>
+            </div>
+        </div>
+        <div>
+            <input name="password" class="form-control form-control-login"  ng-model="updateUserVm.user.password"  type="password" placeholder="password"  required minlength="4"/>
+            <div ng-messages="updateForm.password.$error" ng-if="updateForm.password.$dirty">
+                <p  ng-message="required" class="error">Password is required</p>
+                <p ng-message="minlength" class="error">Password has to be atleast 4 characters</p>
+
+            </div>
+        </div>
+        <div align="center">
+            <button ng-disabled="updateForm.$invalid" type="submit" class="btn btn-primary form-control form-control-login">
+                Update
+            </button>
+        </div>
+
+
+        <div class="col-md-4">
+            <label id="updateMessage"><strong>{{updateUserVm.submitMessage}}</strong></label>
+        </div>
+
+    </form>
+</div>
+</div>

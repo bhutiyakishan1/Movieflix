@@ -1,0 +1,33 @@
+<div align="center">
+    <form name="adminVm.loginForm" ng-submit="adminVm.checkAdmin(adminVm.loginForm)" novalidate>
+        <div class="loginBox">
+            <div>
+                <h4 id="h4login">Admin Login</h4>
+            </div>
+            <div>
+                <input id="email" class="form-control form-control-login" type="email" name="email" ng-model="adminVm.user.email" placeholder="Email" required/>
+            </div>
+            <div ng-messages="loginForm.email.$error" ng-if="loginForm.email.$dirty">
+                <p ng-message="required" class="error">Email is required</p>
+                <p ng-message="email" class="error">Email  is invalid</p>
+            </div>
+            <div>
+                <input id="password" name="password" class="form-control form-control-login" ng-model="adminVm.user.password"  type="password" placeholder="password" required>
+            </div>
+            <div  ng-messages="loginForm.password.$error" ng-if="loginForm.password.$dirty">
+                <p ng-message="required" class="error">password is required</p>
+            </div>
+            <div align="center" >
+                <button class="btn btn-primary btnLoogged" ng-disabled="loginForm.$invalid" type="submit">
+                    Login
+                </button>
+                <button class="btn btn-primary btnLoogged"  onclick="location='#/signup/Admin'">
+                    SignUp Admin
+                </button>
+            </div>
+            <div class="col-md-4">
+                <label id="errorMessage"><strong>{{adminVm.errorMessage}}</strong></label>
+            </div>
+        </div>
+    </form>
+    </div>

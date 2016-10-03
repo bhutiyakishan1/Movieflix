@@ -1,0 +1,110 @@
+<body>
+<h1>
+    MovieDetails
+</h1>
+<div class="container-fluid">
+    <div  ng-show="movieVm.role == 'Admin'"  class="row">
+        <div class="col-md-6">
+            <button  ng-click="movieVm.deleteMovie(movieVm.movie.movieId)" class="btn btn-primary actionbtn">Delete
+                Title
+            </button>
+        </div>
+        <div class="col-md-6">
+            <a href="#/movies/movieDetails/update-movie/{{movieVm.movie.movieId}}">
+                <button  class="btn btn-primary actionbtn">Update
+                    Title
+                </button>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <p><strong>Title</strong>:{{movieVm.movie.title}}</p>
+            <p><strong>Year</strong>:{{movieVm.movie.year}}</p>
+            <p><strong>Rated</strong>:{{movieVm.movie.rated}}</p>
+            <p><strong>Released</strong>:{{movieVm.movie.released}}</p>
+            <p><strong>Runtime</strong>:{{movieVm.movie.runtime}}</p>
+            <p><strong>Genre</strong>:{{movieVm.movie.genre}}</p>
+            <p><strong>Director</strong>:{{movieVm.movie.director}}</p>
+            <p><strong>Writer</strong>:{{movieVm.movie.writer}}</p>
+            <p><strong>Actors</strong>:{{movieVm.movie.actors}}</p>
+            <p><strong>Plot</strong>:{{movieVm.movie.plot}}</p>
+            <p><strong>Language</strong>:{{movieVm.movie.language}}</p>
+            <p><strong>Country</strong>:{{movieVm.movie.country}}</p>
+            <p><strong>Awards</strong>:{{movieVm.movie.awards}}</p>
+            <p><strong>Metascore</strong>:{{movieVm.movie.metascore}}</p>
+            <p><strong>imdbRating</strong>:{{movieVm.movie.imdbRating}}</p>
+            <p><strong>imdbVotes</strong>:{{movieVm.movie.imdbVotes}}</p>
+            <p><strong>imdbID</strong>:{{movieVm.movie.imdbID}}</p>
+            <p><strong>Type</strong>:{{movieVm.movie.type}}</p>
+            <p><strong>Average Rating</strong>:{{movieVm.movie.avgRating}}</p>
+
+        </div>
+
+    </div>
+
+    <h3>
+        Add Rating
+    </h3>
+
+    <form name="movieVm.reviewForm" ng-submit="movieVm.addRating(movieVm.movie.movieId,movieVm.reviewForm)">
+        <div class="row">
+            <div class="rateOut">
+                <div class="col-md-6 form-group ">
+                    <label class="txtRate"><strong>Rate it out of 5 : </strong></label>
+                </div>
+                <div class="col-md-6 form-group ">
+                    <input type="text" id="rating" class="form-control" ng-model="movieVm.newRating.rating">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="ratingClass">
+                <div class="col-md-8">
+                    <div class="form-group ">
+                        <label><strong>Add comments : </strong></label>
+                        <textarea id='comment' class="form-control txtArea"
+                                  ng-model="movieVm.newRating.comment"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div style="width:100%; height:100%">
+                        <button type="submit" class="btn btn-primary addCommentBtn">Add Comment</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label id="ratingMessage"><strong>{{movieVm.submitMessage}}</strong></label>
+            </div>
+        </div>
+    </form>
+
+
+    <h3>
+        Previous ratings and comments
+    </h3>
+    <table class="table table-bordered ratingTable">
+        <thead>
+        <th>
+            Rating
+        </th>
+        <th>
+            Comments
+        </th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="rating in movieVm.ratings">
+            <td>
+                {{rating.rating}}
+            </td>
+            <td>
+                {{rating.comment}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
